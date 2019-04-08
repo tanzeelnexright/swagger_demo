@@ -1,0 +1,137 @@
+---
+swagger: "2.0"
+info:
+  description: "User Detail Api"
+  version: "1.0.0"
+  title: "UserDetail"
+  contact:
+    email: "tanzeel@nexright.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/Nexright7/Test/1.0.0"
+tags:
+- name: "admins"
+  description: "Secured Admin-only calls"
+- name: "developers"
+  description: "Operations available to regular developers"
+schemes:
+- "https"
+- "http"
+paths:
+  /userDetail:
+    get:
+      tags:
+      - "developers"
+      summary: "Return a list of user"
+      description: "By passing in the appropriate options, you can search for\navailable\
+        \ user in the system\n"
+      operationId: "userDetail"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserDetail"
+        400:
+          description: "Invalid Input"
+      x-swagger-router-controller: "Developers"
+    post:
+      tags:
+      - "admins"
+      summary: "adds an user"
+      description: "Adds an user to the system"
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User name to add"
+        required: false
+        schema:
+          $ref: "#/definitions/UserDetail"
+      responses:
+        201:
+          description: "user added"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing user already exists"
+      x-swagger-router-controller: "Admins"
+  /userAddress:
+    post:
+      tags:
+      - "admins"
+      summary: "adds an user address detail"
+      description: "Adds an user address detail to the system"
+      operationId: "addUserAddress"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User name to add"
+        required: false
+        schema:
+          $ref: "#/definitions/UserAddress"
+      responses:
+        201:
+          description: "User Address added"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing user already exists"
+      x-swagger-router-controller: "Admins"
+definitions:
+  UserDetail:
+    type: "object"
+    properties:
+      userName:
+        type: "string"
+        example: "Tanzeel Ahmad"
+      mobileNumber:
+        type: "integer"
+        format: "number"
+        example: 1234567890
+      city:
+        type: "string"
+        format: "uuid"
+        example: "BBSR"
+      addresses:
+        type: "array"
+        items:
+          $ref: "#/definitions/UserAddress"
+    example:
+      addresses:
+      - pincode: "pincode"
+        houseNumber: "houseNumber"
+        nearBy: "nearBy"
+      - pincode: "pincode"
+        houseNumber: "houseNumber"
+        nearBy: "nearBy"
+      city: "BBSR"
+      mobileNumber: 1234567890
+      userName: "Tanzeel Ahmad"
+  UserAddress:
+    type: "object"
+    properties:
+      houseNumber:
+        type: "string"
+      nearBy:
+        type: "string"
+      pincode:
+        type: "string"
+    example:
+      pincode: "pincode"
+      houseNumber: "houseNumber"
+      nearBy: "nearBy"
